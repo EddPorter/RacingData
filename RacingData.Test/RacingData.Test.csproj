@@ -6,7 +6,7 @@
     <ProjectGuid>{91582947-40FE-4FF3-B222-4259D4E63304}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RacingData.Test</RootNamespace>
+    <RootNamespace>EddPorter.RacingSuite.Data.Test</RootNamespace>
     <AssemblyName>RacingData.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -34,8 +34,23 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>RacingSuite.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RacingSuite.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RacingData\RacingData.csproj">
+      <Project>{f030a3ac-8d7c-4438-ab05-4cfaaac32c6f}</Project>
+      <Name>RacingData</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
