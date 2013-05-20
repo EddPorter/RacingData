@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacingData", "RacingData\RacingData.csproj", "{F030A3AC-8D7C-4438-AB05-4CFAAAC32C6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacingData.Test", "RacingData.Test\RacingData.Test.csproj", "{91582947-40FE-4FF3-B222-4259D4E63304}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F030A3AC-8D7C-4438-AB05-4CFAAAC32C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F030A3AC-8D7C-4438-AB05-4CFAAAC32C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F030A3AC-8D7C-4438-AB05-4CFAAAC32C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F030A3AC-8D7C-4438-AB05-4CFAAAC32C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91582947-40FE-4FF3-B222-4259D4E63304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91582947-40FE-4FF3-B222-4259D4E63304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91582947-40FE-4FF3-B222-4259D4E63304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91582947-40FE-4FF3-B222-4259D4E63304}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
