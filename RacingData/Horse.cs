@@ -11,8 +11,16 @@ namespace EddPorter.RacingSuite.Data {
     /// Gets the actual of the horse based on their true date of birth.
     /// </summary>
     public int ActualAge {
-      get;
-      set;
+      get {
+        var now = DateTime.Now;
+        int age = now.Year - DateOfBirth.Year;
+
+        var backDate = new DateTime(DateOfBirth.Year, now.Month, now.Day);
+        if (DateOfBirth - backDate > TimeSpan.Zero) {
+          --age;
+        }
+        return age;
+      }
     }
 
     /// <summary>
