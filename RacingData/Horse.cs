@@ -12,6 +12,10 @@ namespace EddPorter.RacingSuite.Data {
     /// </summary>
     public int ActualAge {
       get {
+        if (DateOfBirth == default(DateTime)) {
+          throw new InvalidOperationException("The horse's actual age could not be computed since no date of birth is known.");
+        }
+
         var now = DateTime.Now;
         int age = now.Year - DateOfBirth.Year;
 
@@ -83,8 +87,13 @@ namespace EddPorter.RacingSuite.Data {
     /// Gets the official age of the horse based on their birthday being on 1st January of the year of their birth.
     /// </summary>
     public int OfficialAge {
-      get;
-      set;
+      get {
+        if (DateOfBirth == default(DateTime)) {
+          throw new InvalidOperationException("The horse's official age could not be computed since no date of birth is known.");
+        }
+
+        return DateTime.Now.Year - DateOfBirth.Year;
+      }
     }
 
     // form
