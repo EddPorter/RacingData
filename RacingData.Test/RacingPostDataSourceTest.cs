@@ -32,7 +32,20 @@ namespace EddPorter.RacingSuite.Data.Test {
     }
 
     [TestMethod]
-    public void FindHorse_with_valid_name_calls_internet_post() {
+    public void FindHorse_with_valid_name_gets_horse_page() {
+      string name = "Horsey";
+      string id = "4";
+      var internet = new Mock<IInternet>();
+      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>" + id + "</ID></item></results>");
+      var source = CreateDataSource(internet);
+
+      source.FindHorse(name);
+
+      internet.Verify(i => i.Get(It.IsRegex("horse_id=" + id)));
+    }
+
+    [TestMethod]
+    public void FindHorse_with_valid_name_posts_hosrse_search() {
       string name = "Horsey";
       var internet = new Mock<IInternet>();
       internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>4</ID></item></results>");
