@@ -45,10 +45,16 @@
   <ItemGroup>
     <Compile Include="Gender.cs" />
     <Compile Include="Horse.cs" />
+    <Compile Include="IDataSource.cs" />
+    <Compile Include="IInternet.cs" />
+    <Compile Include="Internet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RacingPostDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RacingSuite.pfx" />
