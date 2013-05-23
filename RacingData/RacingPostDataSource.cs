@@ -31,7 +31,7 @@ namespace EddPorter.RacingSuite.Data {
       var id = ExtractHorseIdFromSearchResults(name, result);
       var horsePage = GetHorsePage(id);
 
-      throw new NotImplementedException();
+      return null;
     }
 
     private static string ExtractHorseIdFromSearchResults(string name, string result) {

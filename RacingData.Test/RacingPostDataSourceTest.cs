@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 
 namespace EddPorter.RacingSuite.Data.Test {
@@ -30,8 +31,25 @@ namespace EddPorter.RacingSuite.Data.Test {
       source.FindHorse(name);
     }
 
+    [TestMethod]
+    public void FindHorse_with_valid_name_calls_internet_post() {
+      string name = "Horsey";
+      var internet = new Mock<IInternet>();
+      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>4</ID></item></results>");
+      var source = CreateDataSource(internet);
+
+      source.FindHorse(name);
+
+      internet.Verify(i => i.Post(It.IsAny<string>(), It.IsRegex(name)));
+    }
+
     private static RacingPostDataSource CreateDataSource() {
-      return new RacingPostDataSource(new Internet());
+      var internetMock = new Mock<IInternet>();
+      return CreateDataSource(internetMock);
+    }
+
+    private static RacingPostDataSource CreateDataSource(Mock<IInternet> internetMock) {
+      return new RacingPostDataSource(internetMock.Object);
     }
   }
 }
