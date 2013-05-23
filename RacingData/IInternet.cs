@@ -1,4 +1,5 @@
 ﻿namespace EddPorter.RacingSuite.Data {
+
   /// <summary>
   /// Provides abstracted methods that can be used by other classes for accessing the internet.
   /// </summary>

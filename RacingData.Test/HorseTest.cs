@@ -5,18 +5,7 @@ namespace EddPorter.RacingSuite.Data.Test {
 
   [TestClass]
   public class HorseTest {
-    [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
-    public void Horse_ActualAge_given_no_dob_throws_exception() {
-      var horse = new Horse();
-      var age = horse.ActualAge;
-    }
-    [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
-    public void Horse_OfficialAge_given_no_dob_throws_exception() {
-      var horse = new Horse();
-      var age = horse.OfficialAge;
-    }
+
     [TestMethod]
     public void Horse_ActualAge_given_known_dob_returns_horses_actual_age() {
       var dateOfBirth = new DateTime(1984, 2, 1);
@@ -47,6 +36,13 @@ namespace EddPorter.RacingSuite.Data.Test {
     }
 
     [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void Horse_ActualAge_given_no_dob_throws_exception() {
+      var horse = new Horse();
+      var age = horse.ActualAge;
+    }
+
+    [TestMethod]
     public void Horse_OfficialAge_given_known_dob_returns_horses_official_age() {
       var dateOfBirth = new DateTime(1984, 2, 1);
       var horse = new Horse();
@@ -57,6 +53,13 @@ namespace EddPorter.RacingSuite.Data.Test {
       int expectedAge = now.Year - dateOfBirth.Year;
 
       Assert.AreEqual(expectedAge, age);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void Horse_OfficialAge_given_no_dob_throws_exception() {
+      var horse = new Horse();
+      var age = horse.OfficialAge;
     }
   }
 }

@@ -4,6 +4,7 @@
   /// Represents the two different genders.
   /// </summary>
   public enum Gender {
+
     /// <summary>
     /// The gender is not known.
     /// </summary>

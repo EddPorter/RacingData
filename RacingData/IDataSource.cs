@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace EddPorter.RacingSuite.Data {
 
-namespace EddPorter.RacingSuite.Data {
   /// <summary>
   /// Interface for accessing racing data.
   /// </summary>
   public interface IDataSource {
+
     /// <summary>
     /// Locates a horse by its name.
     /// </summary>
