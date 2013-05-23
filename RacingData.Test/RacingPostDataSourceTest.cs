@@ -71,6 +71,20 @@ namespace EddPorter.RacingSuite.Data.Test {
       Assert.IsNotNull(horse);
     }
 
+    [TestMethod]
+    public void FindHorse_with_valid_name_returns_valid_horse_data() {
+      string name = "AcademyGeneral";
+      string id = "4";
+      var internet = new Mock<IInternet>();
+      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>" + id + "</ID></item></results>");
+      internet.Setup(i => i.Get(It.IsAny<string>())).Returns(new StreamReader("Horse_" + name + ".htm").ReadToEnd());
+      var source = CreateDataSource(internet);
+
+      var horse = source.FindHorse(name);
+
+      Assert.AreEqual<string>("Academy General", horse.Name);
+    }
+
     private static RacingPostDataSource CreateDataSource() {
       var internetMock = new Mock<IInternet>();
       return CreateDataSource(internetMock);
