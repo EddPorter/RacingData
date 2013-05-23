@@ -31,7 +31,7 @@ namespace EddPorter.RacingSuite.Data {
       var id = ExtractHorseIdFromSearchResults(name, result);
       var horsePage = GetHorsePage(id);
 
-      return null;
+      return new Horse();
     }
 
     private static string ExtractHorseIdFromSearchResults(string name, string result) {

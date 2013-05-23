@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.IO;
 
 namespace EddPorter.RacingSuite.Data.Test {
 
@@ -54,6 +55,20 @@ namespace EddPorter.RacingSuite.Data.Test {
       source.FindHorse(name);
 
       internet.Verify(i => i.Post(It.IsAny<string>(), It.IsRegex(name)));
+    }
+
+    [TestMethod]
+    public void FindHorse_with_valid_name_returns_non_null_horse_data() {
+      string name = "AcademyGeneral";
+      string id = "4";
+      var internet = new Mock<IInternet>();
+      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>" + id + "</ID></item></results>");
+      internet.Setup(i => i.Get(It.IsAny<string>())).Returns(new StreamReader("Horse_" + name + ".htm").ReadToEnd());
+      var source = CreateDataSource(internet);
+
+      var horse = source.FindHorse(name);
+
+      Assert.IsNotNull(horse);
     }
 
     private static RacingPostDataSource CreateDataSource() {

@@ -63,6 +63,11 @@
     <None Include="packages.config" />
     <None Include="RacingSuite.pfx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Horse_AcademyGeneral.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
       <ItemGroup>
