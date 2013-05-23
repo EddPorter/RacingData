@@ -45,7 +45,7 @@ namespace EddPorter.RacingSuite.Data.Test {
     }
 
     [TestMethod]
-    public void FindHorse_with_valid_name_posts_hosrse_search() {
+    public void FindHorse_with_valid_name_posts_horse_search() {
       string name = "Horsey";
       var internet = new Mock<IInternet>();
       internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>4</ID></item></results>");
