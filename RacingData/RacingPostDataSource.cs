@@ -31,6 +31,35 @@ namespace EddPorter.RacingSuite.Data {
       var id = ExtractHorseIdFromSearchResults(name, result);
       var horsePage = GetHorsePage(id);
 
+      /* ==Name and Country of Birth==
+       * <div class="popUp">
+       * <div class="popUpHead clearfix">
+       * <div class="leftCol">
+       * <h1>
+       * Academy General (IRE)  <span>Race record</span></h1>
+       */
+
+      /* ==Date of Birth, Mother, Father==
+       * <ul id="detailedInfo">
+       * <li>
+       * <b>
+       * 7-y-o (17Apr06 b g)
+       * </b>
+       * </li>
+       * <li>
+       * <b>
+       * <a href="http://bloodstock.racingpost.com/stallionbook/stallion.sd?horse_id=75837&amp;popup=1" class="White" onclick='scorecards.send("stallion_name");return Html.popup(this, {width:750, height:800})' title="Full details about this STALLION">Beneficial </a> </b>
+       * &nbsp;(14.3f) —
+       * <b>
+       * <a href="http://bloodstock.racingpost.com/dam/dam_home.sd?horse_id=503103" class="White" onclick='scorecards.send("dam_name");return Html.popup(this, {width:695, height:800})' title="Full details about this DAM ">Discerning Air </a> </b>
+       * (<b><a href="http://bloodstock.racingpost.com/stallionbook/stallion.sd?horse_id=69582&amp;popup=1" class="White" onclick='scorecards.send("stallion_name");return Html.popup(this, {width:750, height:800})' title="Full details about this STALLION">Ezzoud (IRE)</a></b>
+       * &nbsp;<span>(11.5f)</span>)
+       * </li>
+       */
+
+      // Breed => Load Pedigree tab: http://www.racingpost.com/horses/horse_pedigree.sd?horse_id={id}
+
+
       return new Horse();
     }
 
