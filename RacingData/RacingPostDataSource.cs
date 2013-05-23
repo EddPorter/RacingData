@@ -23,6 +23,10 @@ namespace EddPorter.RacingSuite.Data {
     /// <param name="name">The name of the horse to find.</param>
     /// <returns>Information about the horse if an exact match is found or null if not.</returns>
     public Horse FindHorse(string name) {
+      if (string.IsNullOrWhiteSpace(name)) {
+        throw new ArgumentException("name", "A valid horse name must be specified.");
+      }
+
       var result = ExecuteHorseSearch(name);
       var id = ExtractHorseIdFromSearchResults(name, result);
       var horsePage = GetHorsePage(id);
