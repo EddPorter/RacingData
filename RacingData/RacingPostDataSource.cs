@@ -33,7 +33,7 @@ namespace EddPorter.RacingSuite.Data {
       var horsePage = GetHorsePage(id);
 
       var document = new HtmlAgilityPack.HtmlDocument();
-      var horse = new Horse();
+      var horse = new Horse(this);
 
       // <div class="popUp"><div class="popUpHead clearfix"><div class="leftCol"><h1>Academy General (IRE)  <span>Race record</span></h1>
       document.LoadHtml(horsePage);
@@ -68,6 +68,14 @@ namespace EddPorter.RacingSuite.Data {
       var dobRegex = new Regex(@"\((\d+)([A-Za-z]+)(\d+) .*\)");
       var dobMatch = dobRegex.Match(dobText);
       horse.DateOfBirth = DateTime.Parse(string.Format("{0}-{1}-{2}", dobMatch.Groups[1], dobMatch.Groups[2], dobMatch.Groups[3]));
+
+      var parentageNodes = document.DocumentNode.SelectNodes("//ul[@id='detailedInfo']//li//b/a[@class='White']");
+      
+      var fatherText = parentageNodes[0].InnerText.Trim();
+      horse.fatherName = fatherText;
+
+      var motherText = parentageNodes[1].InnerText.Trim();
+      horse.motherName = motherText;
 
       // Breed => Load Pedigree tab: http://www.racingpost.com/horses/horse_pedigree.sd?horse_id={id}
 

@@ -73,6 +73,26 @@ namespace EddPorter.RacingSuite.Data.Test {
     }
 
     [TestMethod]
+    public void FindHorse_with_valid_name_returns_correct_father_name() {
+      var internet = CreateInternetMock();
+      var source = CreateDataSource(internet);
+
+      var horse = source.FindHorse("AcademyGeneral");
+
+      Assert.AreEqual<string>("Beneficial", horse.fatherName);
+    }
+
+    [TestMethod]
+    public void FindHorse_with_valid_name_returns_correct_mother_name() {
+      var internet = CreateInternetMock();
+      var source = CreateDataSource(internet);
+
+      var horse = source.FindHorse("AcademyGeneral");
+
+      Assert.AreEqual<string>("Discerning Air", horse.motherName);
+    }
+
+    [TestMethod]
     public void FindHorse_with_valid_name_returns_correct_nationality() {
       var internet = CreateInternetMock();
       var source = CreateDataSource(internet);

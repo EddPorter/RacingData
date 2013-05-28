@@ -6,6 +6,23 @@ namespace EddPorter.RacingSuite.Data {
   /// Represents information pertaining to a specific horse.
   /// </summary>
   public class Horse {
+    private IDataSource dataSource;
+
+    private Horse father;
+    private Horse mother;
+
+    internal string fatherName;
+    internal string motherName;
+
+    /// <summary>
+    /// Creates a new Horse object.
+    /// </summary>
+    public Horse() {
+    }
+
+    internal Horse(IDataSource dataSource) {
+      this.dataSource = dataSource;
+    }
 
     /// <summary>
     /// Gets the actual of the horse based on their true date of birth.
@@ -55,8 +72,15 @@ namespace EddPorter.RacingSuite.Data {
     /// Gets this horse's father, if known.
     /// </summary>
     public virtual Horse Father {
-      get;
-      set;
+      get {
+        if (string.IsNullOrWhiteSpace(fatherName)) {
+          throw new InvalidOperationException("No father information was found.");
+        }
+        if (father == null) {
+          father = dataSource.FindHorse(fatherName);
+        }
+        return father;
+      }
     }
 
     /// <summary>
@@ -71,8 +95,15 @@ namespace EddPorter.RacingSuite.Data {
     /// Gets this horse's mother, if known.
     /// </summary>
     public virtual Horse Mother {
-      get;
-      set;
+      get {
+        if (string.IsNullOrWhiteSpace(motherName)) {
+          throw new InvalidOperationException("No mother information was found.");
+        }
+        if (mother == null) {
+          mother = dataSource.FindHorse(motherName);
+        }
+        return mother;
+      }
     }
 
     /// <summary>
