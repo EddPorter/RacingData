@@ -34,55 +34,62 @@ namespace EddPorter.RacingSuite.Data.Test {
 
     [TestMethod]
     public void FindHorse_with_valid_name_gets_horse_page() {
-      string name = "Horsey";
-      string id = "4";
-      var internet = new Mock<IInternet>();
-      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>" + id + "</ID></item></results>");
+      var internet = CreateInternetMock();
       var source = CreateDataSource(internet);
 
-      source.FindHorse(name);
+      source.FindHorse("AcademyGeneral");
 
-      internet.Verify(i => i.Get(It.IsRegex("horse_id=" + id)));
+      internet.Verify(i => i.Get(It.IsRegex("horse_id=4")));
     }
 
     [TestMethod]
     public void FindHorse_with_valid_name_posts_horse_search() {
-      string name = "Horsey";
-      var internet = new Mock<IInternet>();
-      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>4</ID></item></results>");
+      var internet = CreateInternetMock();
       var source = CreateDataSource(internet);
 
-      source.FindHorse(name);
+      source.FindHorse("AcademyGeneral");
 
-      internet.Verify(i => i.Post(It.IsAny<string>(), It.IsRegex(name)));
+      internet.Verify(i => i.Post(It.IsAny<string>(), It.IsRegex("AcademyGeneral")));
+    }
+
+    [TestMethod]
+    public void FindHorse_with_valid_name_returns_correct_birthdate() {
+      var internet = CreateInternetMock();
+      var source = CreateDataSource(internet);
+
+      var horse = source.FindHorse("AcademyGeneral");
+
+      Assert.AreEqual<DateTime>(new DateTime(2006, 4, 17), horse.DateOfBirth);
+    }
+
+    [TestMethod]
+    public void FindHorse_with_valid_name_returns_correct_name() {
+      var internet = CreateInternetMock();
+      var source = CreateDataSource(internet);
+
+      var horse = source.FindHorse("AcademyGeneral");
+
+      Assert.AreEqual<string>("Academy General", horse.Name);
+    }
+
+    [TestMethod]
+    public void FindHorse_with_valid_name_returns_correct_nationality() {
+      var internet = CreateInternetMock();
+      var source = CreateDataSource(internet);
+
+      var horse = source.FindHorse("AcademyGeneral");
+
+      Assert.AreEqual<string>("IRE", horse.CountryOfBirth);
     }
 
     [TestMethod]
     public void FindHorse_with_valid_name_returns_non_null_horse_data() {
-      string name = "AcademyGeneral";
-      string id = "4";
-      var internet = new Mock<IInternet>();
-      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>" + id + "</ID></item></results>");
-      internet.Setup(i => i.Get(It.IsAny<string>())).Returns(new StreamReader("Horse_" + name + ".htm").ReadToEnd());
+      var internet = CreateInternetMock();
       var source = CreateDataSource(internet);
 
-      var horse = source.FindHorse(name);
+      var horse = source.FindHorse("AcademyGeneral");
 
       Assert.IsNotNull(horse);
-    }
-
-    [TestMethod]
-    public void FindHorse_with_valid_name_returns_valid_horse_data() {
-      string name = "AcademyGeneral";
-      string id = "4";
-      var internet = new Mock<IInternet>();
-      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>" + id + "</ID></item></results>");
-      internet.Setup(i => i.Get(It.IsAny<string>())).Returns(new StreamReader("Horse_" + name + ".htm").ReadToEnd());
-      var source = CreateDataSource(internet);
-
-      var horse = source.FindHorse(name);
-
-      Assert.AreEqual<string>("Academy General", horse.Name);
     }
 
     private static RacingPostDataSource CreateDataSource() {
@@ -92,6 +99,15 @@ namespace EddPorter.RacingSuite.Data.Test {
 
     private static RacingPostDataSource CreateDataSource(Mock<IInternet> internetMock) {
       return new RacingPostDataSource(internetMock.Object);
+    }
+
+    private static Mock<IInternet> CreateInternetMock() {
+      string name = "AcademyGeneral";
+      string id = "4";
+      var internet = new Mock<IInternet>();
+      internet.Setup(i => i.Post(It.IsAny<string>(), It.IsAny<string>())).Returns("<results><item><NAME>" + name + "</NAME><ID>" + id + "</ID></item></results>");
+      internet.Setup(i => i.Get(It.IsAny<string>())).Returns(new StreamReader("Horse_" + name + ".htm").ReadToEnd());
+      return internet;
     }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace EddPorter.RacingSuite.Data {
@@ -31,13 +32,18 @@ namespace EddPorter.RacingSuite.Data {
       var id = ExtractHorseIdFromSearchResults(name, result);
       var horsePage = GetHorsePage(id);
 
-      /* ==Name and Country of Birth==
-       * <div class="popUp">
-       * <div class="popUpHead clearfix">
-       * <div class="leftCol">
-       * <h1>
-       * Academy General (IRE)  <span>Race record</span></h1>
-       */
+      var document = new HtmlAgilityPack.HtmlDocument();
+      var horse = new Horse();
+
+      // <div class="popUp"><div class="popUpHead clearfix"><div class="leftCol"><h1>Academy General (IRE)  <span>Race record</span></h1>
+      document.LoadHtml(horsePage);
+      var nameNode = document.DocumentNode.SelectSingleNode("//div[@class='popUp']/div[@class='popUpHead clearfix']/div[@class='leftCol']/h1");
+      var horseName = nameNode.ChildNodes[0].InnerText.Trim();
+
+      Regex horseNameRegex = new Regex(@"(.*) \((.*)\)");
+      var horseNameMatch = horseNameRegex.Match(horseName);
+      horse.Name = horseNameMatch.Groups[1].Value;
+      horse.CountryOfBirth = horseNameMatch.Groups[2].Value;
 
       /* ==Date of Birth, Mother, Father==
        * <ul id="detailedInfo">
@@ -56,11 +62,17 @@ namespace EddPorter.RacingSuite.Data {
        * &nbsp;<span>(11.5f)</span>)
        * </li>
        */
+      var dobNode = document.DocumentNode.SelectSingleNode("//ul[@id='detailedInfo']/li/b");
+      var dobText = dobNode.InnerText.Trim();
+
+      var dobRegex = new Regex(@"\((\d+)([A-Za-z]+)(\d+) .*\)");
+      var dobMatch = dobRegex.Match(dobText);
+      horse.DateOfBirth = DateTime.Parse(string.Format("{0}-{1}-{2}", dobMatch.Groups[1], dobMatch.Groups[2], dobMatch.Groups[3]));
 
       // Breed => Load Pedigree tab: http://www.racingpost.com/horses/horse_pedigree.sd?horse_id={id}
 
 
-      return new Horse();
+      return horse;
     }
 
     private static string ExtractHorseIdFromSearchResults(string name, string result) {
