@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Xml;
 
 namespace EddPorter.RacingSuite.Data {
@@ -33,17 +34,18 @@ namespace EddPorter.RacingSuite.Data {
       var horsePage = GetHorsePage(id);
 
       var document = new HtmlAgilityPack.HtmlDocument();
-      var horse = new Horse(this);
+      var horse = new Horse();
 
       // <div class="popUp"><div class="popUpHead clearfix"><div class="leftCol"><h1>Academy General (IRE)  <span>Race record</span></h1>
       document.LoadHtml(horsePage);
       var nameNode = document.DocumentNode.SelectSingleNode("//div[@class='popUp']/div[@class='popUpHead clearfix']/div[@class='leftCol']/h1");
       var horseName = nameNode.ChildNodes[0].InnerText.Trim();
 
-      Regex horseNameRegex = new Regex(@"(.*) \((.*)\)");
+      Regex horseNameRegex = new Regex(@"^([^\(]+)( \((.+)\))?$");
       var horseNameMatch = horseNameRegex.Match(horseName);
       horse.Name = horseNameMatch.Groups[1].Value;
-      horse.CountryOfBirth = horseNameMatch.Groups[2].Value;
+      var capturedName = horseNameMatch.Groups[3].Value;
+      horse.CountryOfBirth = string.IsNullOrWhiteSpace(capturedName) ? "GBR" : capturedName;
 
       /* ==Date of Birth, Mother, Father==
        * <ul id="detailedInfo">
@@ -70,14 +72,17 @@ namespace EddPorter.RacingSuite.Data {
       horse.DateOfBirth = DateTime.Parse(string.Format("{0}-{1}-{2}", dobMatch.Groups[1], dobMatch.Groups[2], dobMatch.Groups[3]));
 
       var parentageNodes = document.DocumentNode.SelectNodes("//ul[@id='detailedInfo']//li//b/a[@class='White']");
-      
+
       var fatherText = parentageNodes[0].InnerText.Trim();
-      horse.fatherName = fatherText;
+      horse.father = new Lazy<Horse>(() => FindHorse(fatherText));
 
       var motherText = parentageNodes[1].InnerText.Trim();
-      horse.motherName = motherText;
+      horse.mother = new Lazy<Horse>(() => FindHorse(motherText));
 
       // Breed => Load Pedigree tab: http://www.racingpost.com/horses/horse_pedigree.sd?horse_id={id}
+
+      // Form
+      // <div id="horse_race_record" class="tabContent tabSelected"><p class="border">Jumps placings 9/9<b>P</b><b>F</b><b>6</b><b>5</b><b>3</b>/<b>U</b><b>3</b>-</p>
 
 
       return horse;
@@ -92,7 +97,7 @@ namespace EddPorter.RacingSuite.Data {
 
     private string ExecuteHorseSearch(string name) {
       var uri = @"http://www.racingpost.com/public_gateway/db_search_interface.sd";
-      var post = string.Format(@"search={0}&edition=4&category=2", name);
+      var post = string.Format(@"search={0}&edition=4&category=2", HttpUtility.UrlEncode(name));
       return internet.Post(uri, post);
     }
 
